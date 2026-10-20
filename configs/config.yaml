@@ -1,0 +1,45 @@
+# Default configuration for Underwater Image Super-Resolution (SRCNN)
+
+project:
+  name: underwater-image-super-resolution
+  seed: 42
+
+model:
+  name: srcnn
+  scale_factor: 4        # Supported: 2 or 4
+  in_channels: 3         # RGB
+  num_channels: 64       # First conv output channels
+  mid_channels: 32       # Non-linear mapping channels
+
+training:
+  epochs: 50
+  batch_size: 16
+  learning_rate: 0.0001
+  lr_step_size: 20
+  lr_gamma: 0.5
+  weight_decay: 1.0e-4
+  num_workers: 2
+  device: auto           # "auto", "cuda", or "cpu"
+  checkpoint_dir: checkpoints
+  save_every: 5
+
+data:
+  train_lr_dir: data/train/lr
+  train_hr_dir: data/train/hr
+  val_lr_dir: data/val/lr
+  val_hr_dir: data/val/hr
+  patch_size: 128        # HR patch crop size
+
+evaluation:
+  test_lr_dir: data/test/lr
+  test_hr_dir: data/test/hr
+  output_dir: outputs/evaluation
+  device: auto
+
+inference:
+  checkpoint_path: checkpoints/best_srcnn_x4.pth
+  input_path: sample_images/underwater_sample.png
+  output_dir: outputs/inference
+  scale_factor: 4
+  device: auto
+
